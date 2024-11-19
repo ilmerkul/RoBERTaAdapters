@@ -5,12 +5,12 @@ roberta_embedding_size = 768
 
 
 class NERLinear(nn.Module):
-    def __init__(self, lin_size, n_classes):
+    def __init__(self, lin_size, n_classes, p=0.2):
         super(NERLinear, self).__init__()
 
         self.lin0 = nn.Linear(roberta_embedding_size, lin_size)
         self.act = nn.GELU()
-        self.dropout = nn.Dropout(p=0.2)
+        self.dropout = nn.Dropout(p=p)
         self.lin1 = nn.Linear(lin_size, n_classes)
 
     def forward(self, hidden_state):
@@ -23,12 +23,12 @@ class NERLinear(nn.Module):
 
 
 class RoBERTaNER(nn.Module):
-    def __init__(self, lin_size, n_classes):
+    def __init__(self, lin_size, n_classes, p):
         super(RoBERTaNER, self).__init__()
 
         self.roberta = RobertaModel.from_pretrained("roberta-base")
         self.roberta.pooler = None
-        self.lin = NERLinear(lin_size, n_classes)
+        self.lin = NERLinear(lin_size, n_classes, p)
 
     def forward(self, input_ids, attention_mask, token_type_ids):
         output = self.roberta(input_ids=input_ids,

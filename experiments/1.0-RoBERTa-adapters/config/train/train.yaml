@@ -1,0 +1,4 @@
+epoch: 3
+batch_size: 16
+lr: 1e-5
+print_step: 100

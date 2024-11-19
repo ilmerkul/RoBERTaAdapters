@@ -1,0 +1,4 @@
+ner_lin_size: 256
+count_tags: 10
+dropout: 0.2
+hidden_size_adapter: 32
